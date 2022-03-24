@@ -70,7 +70,7 @@ export default {
                 tabResultats.value.push(element); 
             }
         });
-
+        tabLettreTMP.value.push({"lettre" : tabLettre.value[1].toUpperCase(), "couleur" : "R", "position": 1});
         for(let i = 2;i<= nbInput.value;i++) {
             if(tabColor.value[i] === 2){
                 tabResultats.value.forEach(element => {
@@ -80,7 +80,7 @@ export default {
             })
             tabResultats.value = tabResultats2.value;
             tabResultats2.value = [];  
-            tabLettreTMP.value.push(tabLettre.value[i].toUpperCase());
+            tabLettreTMP.value.push({"lettre" : tabLettre.value[i].toUpperCase(), "couleur" : "R", "position": i});
             tabLettrePositionTMP.value.push(tabLettre.value[i].toUpperCase()+i);
             }
         }
@@ -94,28 +94,41 @@ export default {
             })
             tabResultats.value = tabResultats2.value;
             tabResultats2.value = [];  
-            tabLettreTMP.value.push(tabLettre.value[i].toUpperCase());
+            tabLettreTMP.value.push({"lettre" : tabLettre.value[i].toUpperCase(), "couleur" : "0", "position": i});
             tabLettrePositionTMP.value.push(tabLettre.value[i].toUpperCase()+i);
             }
         }
-        console.log(tabColor.value)
         for(let i = 2;i<= nbInput.value;i++) {
             if(tabColor.value[i] === 0){
                 tabResultats.value.forEach(element => {
-                console.log(tabLettre.value[i])
-                if(tabLettreTMP.value.indexOf(tabLettre.value[i].toUpperCase()) >= 0){
+
+                let del = true;
+
+                tabLettreTMP.value.forEach(lettre => {
                     let verif = true;
-                    for(let j=1; j< element.length;j++) {
-                        let k = j+1;
-                        if((element[j] === tabLettre.value[i].toUpperCase().toString()) && ((tabLettrePositionTMP.value.indexOf(element[j]+k) === -1))) {
-                            verif = false;
+                    if(lettre.lettre === tabLettre.value[i].toUpperCase()) {
+                        del = false;
+                        if(lettre.couleur === "O") {
+                            if(element[i] === tabLettre.value[i].toUpperCase()){
+                                verif = false;
+                            }
+                        }else if(lettre.couleur === "R") {
+                            for(let j=1; j< element.length;j++) {
+                                let k = j+1;
+                                if((element[j] === tabLettre.value[i].toUpperCase().toString()) && ((tabLettrePositionTMP.value.indexOf(element[j]+k) === -1))) {
+                                    verif = false;
+                                }
+                            }
+                        }
+                        if(verif) {
+                            tabResultats2.value.push(element);
                         }
                     }
-                    if(verif) {
+                })
+                if(del) {
+                    if(!(element.includes(tabLettre.value[i].toUpperCase()))){
                         tabResultats2.value.push(element);
                     }
-                }else if(!(element.includes(tabLettre.value[i].toUpperCase()))){
-                    tabResultats2.value.push(element);
                 }
 
              
