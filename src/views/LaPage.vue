@@ -7,14 +7,15 @@
         <option value="9">9</option>
     </select>
     <div  class="mt-6 flex flex-row items-center justify-center" >
-        <Input v-for="i in nbInput" :key="i" letter="" :indice="i" @mouseDown="changeInput" @clickInput="clickInput"/>
+        <Input v-for="i in nbInput" :key="i" :nbClick="tabColor[i]" :letter="tabLettre[i]" :indice="i" @mouseDown="changeInput" @clickInput="clickInput"/>
     </div>
 
-    <div class="mt-6">
-        <a @click="search" class="flex  items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700">Rechercher</a>
+    <div class="flex mt-6 justify-center space-x-4">
+        <a @click="clear" class=" w-32  items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700">Clear</a>
+        <a @click="search" class="w-32   items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700">Rechercher</a>
     </div>
     <ul class="grid grid-cols-4 gap-4 mt-6">
-        <li v-for="mot in tabResultats" :key="mot">{{ mot}}</li>
+        <li v-for="(mot) in tableauFinal" :key="mot">{{ mot.mot}}</li>
     </ul>
 
 
@@ -23,7 +24,8 @@
 <script>
 import Input from '../components/Input.vue'
 import ListeMot from "@/models/ListeMot";
-import { onMounted, ref} from 'vue';
+import ListeProba from "@/models/ListeProba";
+import { onMounted, ref, onUpdated} from 'vue';
 export default {
   components: { Input },
   name: 'LaPage',
@@ -36,18 +38,19 @@ export default {
       const tabLettre = ref([])
       const tabResultats = ref([])
       const tabResultats2 = ref([])
+      const listeProba = ref([])
+      const tableauFinal = ref([])
+      const valueInput = ref("")
 
       function changeValue() {
           nbInput.value = parseInt(selectedValue.value);
-          for (let i = 1; i <= nbInput.value; i++) {
-            tabColor.value[i] = 0; 
-            }
+          clear();
       }
 
       function changeInput(indice, lettre) {
-          if(lettre != "") {
+          if( lettre != undefined && lettre != "") {
             if(indice < nbInput.value) {
-                    const test = indice +1;
+                const test = indice +1;
                 document.getElementById(test.toString()).focus();
             }
             tabLettre.value[indice] = lettre;
@@ -56,6 +59,16 @@ export default {
 
       function clickInput(indice, nbClick) {
           tabColor.value[indice] = nbClick;
+      }
+
+      function clear() {
+          for(let i=1; i<=nbInput.value;i++) {
+            tabLettre.value[i] = '';
+            tabColor.value[i] = 0;
+          }
+          tableauFinal.value = [];
+
+          document.getElementById('1').focus();
       }
 
       function search() {
@@ -137,17 +150,40 @@ export default {
             tabResultats2.value = [];  
             }
         }
+        calculProba();
+        trieTableauFinal();
+      }
+
+      function trieTableauFinal() {
+        const sortByMapped = (map,compareFn) => (a,b) => compareFn(map(a),map(b));
+        const byValue = (a,b) => b - a;
+        const toPrice = e => e.proba;
+        const byPrice = sortByMapped(toPrice,byValue);
+        tableauFinal.value.sort(byPrice)
+      }
+
+     
+      function calculProba() {
+        tabResultats.value.forEach(leMot => {
+            let probaTotal = 0;
+            for(let j = 0;j<leMot.length;j++) {
+                const index = ListeProba.getLesProbas().findIndex( (element) => element.lettre === leMot[j]);
+                probaTotal += ListeProba.getLesProbas()[index].proba
+            }
+            tableauFinal.value.push({"mot" : leMot, "proba" : probaTotal})
+          })
       }
 
       onMounted(() =>  {
           for (let i = 1; i <= nbInput.value; i++) {
             tabColor.value[i] = 0; 
+            tabLettre.value[i] = '';
             }
 
           document.getElementById('1').focus();
       })
 
-      return { nbInput, selectedValue, tabColor, tabLettre,tabResultats,tabResultats2, changeValue, changeInput, clickInput, search }
+      return { nbInput, selectedValue, tabColor, tabLettre,tabResultats,tabResultats2,listeProba, tableauFinal,valueInput,clear, changeValue, changeInput, clickInput, search, calculProba, trieTableauFinal }
   }
 }
 </script>

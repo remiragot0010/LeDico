@@ -2,52 +2,57 @@
      <input maxlength="1" :id="indice" type="text" :class="[
               {
                 'char':
-                  nbClick === 0,
+                  nbClickInput === 0,
               },
               {
                 'char2':
-                  nbClick === 1,
+                  nbClickInput === 1,
               },
               {
                 'char3':
-                  nbClick === 2,
+                  nbClickInput === 2,
               },
             ]" v-model="lettreCase"  @click="clickInput"/>
 </template>
 
 <script>
-import {onMounted, ref} from 'vue';
+import {onMounted, ref,onUpdated} from 'vue';
 
 export default {
     name: 'LetterContainer',
     props: {
         letter: String,
-        indice: Number
+        indice: Number,
+        nbClick: Number
     },
      emits: ["mouseDown", "clickInput"],
     
 
     setup(props, { emit }) {
         const lettreCase = ref("");
-        const nbClick = ref(0);
+        const nbClickInput = ref(0);
         const lIndice = ref();
 
         onMounted(() => {
             lettreCase.value = props.letter;
-            console.log(lettreCase.value)
+            nbClickInput.value = props.nbClick;
+        })
+
+        onUpdated(() => {
+          nbClickInput.value = props.nbClick;
+          lettreCase.value = props.letter;
         })
 
         function clickInput() {
-            console.log("le clic " + nbClick.value, props.indice)
-            if(nbClick.value < 2){
-                nbClick.value++;
+            if(nbClickInput.value < 2){
+                nbClickInput.value++;
             }else{
-                nbClick.value = 0;
+                nbClickInput.value = 0;
             }
-            emit('clickInput', props.indice, nbClick.value);
+            emit('clickInput', props.indice, nbClickInput.value);
         }
 
-        return { lettreCase,nbClick,lIndice, clickInput }
+        return { lettreCase,nbClickInput,lIndice, clickInput }
     },
 
     watch: {
