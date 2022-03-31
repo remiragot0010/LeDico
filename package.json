@@ -5,7 +5,8 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "cypress:open": "cypress open"
   },
   "dependencies": {
     "@headlessui/vue": "^1.5.0",
@@ -22,6 +23,7 @@
     "@vue/compiler-sfc": "^3.0.0",
     "autoprefixer": "^9.8.8",
     "babel-eslint": "^10.1.0",
+    "cypress": "^9.5.3",
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^7.0.0",
     "postcss": "^7.0.39",

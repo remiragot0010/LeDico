@@ -12,7 +12,7 @@
                 'char3':
                   nbClickInput === 2,
               },
-            ]" v-model="lettreCase"  @click="clickInput"/>
+            ]" v-model="lettreCase"  @click="clickInput" @keydown="pressDel($event)"/>
 </template>
 
 <script>
@@ -25,7 +25,7 @@ export default {
         indice: Number,
         nbClick: Number
     },
-     emits: ["mouseDown", "clickInput"],
+     emits: ["mouseDown", "clickInput", "keydown"],
     
 
     setup(props, { emit }) {
@@ -52,11 +52,19 @@ export default {
             emit('clickInput', props.indice, nbClickInput.value);
         }
 
-        return { lettreCase,nbClickInput,lIndice, clickInput }
+        function pressDel(e) {
+          
+          if(e.keyCode === 8) {
+            emit('keydown', props.indice)
+          }
+        }
+
+        return { lettreCase,nbClickInput,lIndice, pressDel, clickInput }
     },
 
     watch: {
         lettreCase : function () {
+          console.log("ici")
             this.$emit('mouseDown', this.indice, this.lettreCase)
         }
     }
