@@ -25,7 +25,7 @@ export default {
         indice: Number,
         nbClick: Number
     },
-     emits: ["mouseDown", "clickInput", "keydown"],
+     emits: ["mouseDown", "clickInput", "keydown", "action"],
     
 
     setup(props, { emit }) {
@@ -53,9 +53,17 @@ export default {
         }
 
         function pressDel(e) {
-          
-          if(e.keyCode === 8) {
-            emit('keydown', props.indice)
+          if(e.keyCode === 13 || e.keyCode === 46) {
+            emit('action', e.keyCode)
+          }else if(e.keyCode === 8) {
+            emit('keydown', props.indice, true)
+          }else if(e.keyCode === 16){
+            clickInput();
+          }else if(e.keyCode === 17) {
+            clickInput();
+            clickInput();
+          }else {
+            emit('keydown', props.indice, false)
           }
         }
 
@@ -64,7 +72,6 @@ export default {
 
     watch: {
         lettreCase : function () {
-          console.log("ici")
             this.$emit('mouseDown', this.indice, this.lettreCase)
         }
     }
@@ -86,6 +93,7 @@ export default {
   text-align: center;
   color: black;
   background-color: rgba(225, 225, 225); 
+  user-select: none;
 }
 
 .char2 {
@@ -101,6 +109,7 @@ export default {
   text-align: center;
   color: black;
   background-color: rgb(207, 142, 56); 
+  user-select: none;
 }
 
 .char3 {
@@ -116,24 +125,6 @@ export default {
   text-align: center;
   color: black;
   background-color: rgb(221, 58, 58); 
+  
 }
-
-.char:focus{
-  -webkit-box-shadow: 0 0 0 2px rgb(0,133,180);
-  -moz-box-shadow: 0 0 0 2px rgb(0,133,180);
-  box-shadow: inset 0 0 0 2px rgb(0,133,180);  
-}
-
-.char2:focus{
-  -webkit-box-shadow: 0 0 0 2px rgb(0,133,180);
-  -moz-box-shadow: 0 0 0 2px rgb(0,133,180);
-  box-shadow: inset 0 0 0 2px rgb(0,133,180);  
-}
-
-.char3:focus{
-  -webkit-box-shadow: 0 0 0 2px rgb(0,133,180);
-  -moz-box-shadow: 0 0 0 2px rgb(0,133,180);
-  box-shadow: inset 0 0 0 2px rgb(0,133,180);  
-}
-
 </style>
