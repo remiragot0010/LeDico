@@ -1,12 +1,15 @@
 <template>
-<div>
-<select name="select" id="select" @change="changeValue" v-model="selectedValue">
-        <option value="5">5</option>
-        <option value="6">6</option>
-        <option value="7">7</option>
-        <option value="8">8</option>
-        <option value="9">9</option>
-    </select>
+<div class="relative flex min-h-screen flex-col justify-center overflow-hidden">
+      <div class="relative bg-white px-6 pt-10 pb-8 shadow-xl ring-1 ring-gray-900/5 sm:mx-auto sm:max-w-lg sm:rounded-lg sm:px-10">
+
+    <div class=" flex flex-row  justify-center "  > 
+        <div :class="['w-10 h-10 bg-indigo-600 m-1 shadow-xl ring-1 ring-gray-900/5 flex justify-center sm:mx-auto sm:max-w-lg sm:rounded-lg sm:px-10 text-center align-middle style', { 'bloc' : nbInput === i+4}]" v-for="i in nbBloc"  :key="i" @click="changeValue(i+4)">
+           {{ i+4}} 
+        </div>
+
+        
+    </div>
+
     <ul class="mt-6">
         <li v-for="(mot,i) in tabLettreGlobal" :key="mot"><label v-for="(lettre,j) in mot" :key="lettre" :class="[
             'lettre',
@@ -25,16 +28,17 @@
     </div>
 
     <div class="flex mt-6 justify-center space-x-4">
-        <a @click="clear" id="button1" class=" w-32  items-center justify-center rounded-md border border-transparent bg-indigo-600 lg:bg-yellow-500  sm:bg-pink-500 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700">Clear</a>
+        <a @click="clear" id="button1" class=" w-32  items-center justify-center rounded-md border border-transparent bg-indigo-600 lg:bg-indigo-500  sm:bg-indigo-500 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700">Clear</a>
         <a @click="clearAll" id="button3" class=" w-32  items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700">Clear All</a>
 
         <a @click="search" id="button2" class="w-32   items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700">Rechercher</a>
     </div>
-    <ul class="grid grid-cols-4 gap-4 mt-6">
+</div>
+
+<ul class="grid grid-cols-4 gap-4 mt-7">
         <li v-for="(mot) in tableauFinal" :key="mot"><a @click="clickWord(mot.mot)">{{ mot.mot}}</a></li>
     </ul>
 </div>
-    
 
 
 </template>
@@ -51,6 +55,7 @@ export default {
   
   setup() {
 
+    const nbBloc = ref(5);
       const nbInput = ref(5);
       const selectedValue = ref(5);
       const tabColor = ref([]);
@@ -66,8 +71,8 @@ export default {
       const variableQuiSertARien = ref(false);
       const oldTabColor = ref([]);
 
-      function changeValue() {
-          nbInput.value = parseInt(selectedValue.value);
+      function changeValue(nb) {
+          nbInput.value = parseInt(nb);
           clearAll();
       }
 
@@ -300,7 +305,7 @@ export default {
 
       })
 
-      return { nbInput, selectedValue, tabColor, tabLettre,tabResultats,tabResultats2,listeProba, tableauFinal,valueInput, tabLettreGlobal, tabColorGlobal,theIndice,oldTabColor,clickWord,actionInput, clear, clearAll,clearInput, changeValue, changeInput, keydown, clickInput, search, calculProba, trieTableauFinal }
+      return { nbInput, selectedValue, tabColor, tabLettre,tabResultats,tabResultats2,listeProba, tableauFinal,valueInput, tabLettreGlobal, tabColorGlobal,theIndice,oldTabColor,nbBloc,clickWord,actionInput, clear, clearAll,clearInput, changeValue, changeInput, keydown, clickInput, search, calculProba, trieTableauFinal }
   }
 }
 </script>
@@ -320,5 +325,13 @@ export default {
 
 .lettre2 {
     color: rgb(207, 142, 56);
+}
+
+.bloc {
+    background-color: palevioletred;
+}
+.style {
+    color: white;
+    font-size: 1.7em;
 }
 </style>

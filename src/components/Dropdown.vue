@@ -56,7 +56,6 @@ export default {
     const selected = ref(nb[0])
 
     return {
-      people,
       selected,
     }
   },

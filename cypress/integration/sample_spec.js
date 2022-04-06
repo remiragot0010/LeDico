@@ -191,7 +191,7 @@ describe('On test', () => {
 
     })
 
-    it('Test click', () => {
+    it('Test click on result', () => {
 
         cy.get('select').select('6');
         

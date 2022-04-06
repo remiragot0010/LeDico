@@ -10,12 +10,17 @@
   },
   "dependencies": {
     "@headlessui/vue": "^1.5.0",
+    "@vue-hero-icons/outline": "^1.7.2",
+    "@vue-hero-icons/solid": "^1.7.2",
     "core-js": "^3.6.5",
     "pinia": "^2.0.12",
     "sass-loader": "^12.6.0",
     "vue": "^3.0.0"
   },
   "devDependencies": {
+    "@cypress/vue": "^3.1.0",
+    "@cypress/webpack-dev-server": "^1.8.4",
+    "@expo/webpack-config": "^0.16.19",
     "@tailwindcss/postcss7-compat": "^2.2.17",
     "@vue/cli-plugin-babel": "~4.5.12",
     "@vue/cli-plugin-eslint": "~4.5.12",
