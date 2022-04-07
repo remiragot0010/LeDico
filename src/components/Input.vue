@@ -66,7 +66,6 @@ export default {
             emit('keydown', props.indice, false)
           }
         }
-
         return { lettreCase,nbClickInput,lIndice, pressDel, clickInput }
     },
 
@@ -93,7 +92,6 @@ export default {
   text-align: center;
   color: black;
   background-color: rgba(225, 225, 225); 
-  user-select: none;
 }
 
 .char2 {
@@ -109,7 +107,6 @@ export default {
   text-align: center;
   color: black;
   background-color: rgb(207, 142, 56); 
-  user-select: none;
 }
 
 .char3 {

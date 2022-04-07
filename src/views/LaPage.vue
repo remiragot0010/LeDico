@@ -30,7 +30,6 @@
     <div class="flex mt-6 justify-center space-x-4">
         <a @click="clear" id="button1" class=" w-32  items-center justify-center rounded-md border border-transparent bg-indigo-600 lg:bg-indigo-500  sm:bg-indigo-500 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700">Clear</a>
         <a @click="clearAll" id="button3" class=" w-32  items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700">Clear All</a>
-
         <a @click="search" id="button2" class="w-32   items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700">Rechercher</a>
     </div>
 </div>
@@ -288,10 +287,10 @@ export default {
           document.getElementById('1').focus();
 
         window.addEventListener('keydown', (e) => {
-            if(e.keyCode === 16 || e.keyCode === 17) {
-
+            if(e.key === "Shift" || e.key === "Control") {
+                return;
             }else
-            if(e.keyCode === 8) {
+            if(e.key === "Backspace") {
                 if(!variableQuiSertARien.value) {
                     keydown(theIndice.value, true)
                 }
