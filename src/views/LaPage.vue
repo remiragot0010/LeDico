@@ -155,30 +155,60 @@ export default {
             for(let i = 2;i<= nbInput.value;i++) {
                 if(tabColorGlobal.value[index][i] === 1){
                     tabResultats.value.forEach(element => {
-                    if(element.includes(leTab[i].toUpperCase()) && !(element[i-1] === leTab[i].toUpperCase())){
-                        tabResultats2.value.push(element);
+
+                    let verif2 = true;
+                    tabLettreTMP.value.forEach(lettre => {
+                        let verif = true;
+                        if(lettre.lettre === leTab[i].toUpperCase()) {
+                            if(lettre.couleur === "R") {
+                                verif2 = false;
+                                let cpt = 0;
+                                for(let j=1; j< element.length;j++) {
+                                    let k = j+1;
+                                    
+                                    if(((element[j] === leTab[i].toUpperCase().toString()) && ((tabLettrePositionTMP.value.indexOf(element[j]+k) === -1)))) {
+                                        cpt++;
+                                    }
+                                    if(element[i-1] === leTab[i].toUpperCase() || ((element[j] === leTab[i].toUpperCase().toString()) && ((tabLettrePositionTMP.value.indexOf(element[j]+k) > 0)))) {
+                                        verif = false;
+                
+                                    }
+                                }
+                                if(cpt > 0) {
+                                    verif = true;
+                                }
+                            }
+                            if(verif) {
+                                tabResultats2.value.push(element);
+                            }
+                        }
+                    })
+                    if(verif2){
+                        if(element.includes(leTab[i].toUpperCase()) && !(element[i-1] === leTab[i].toUpperCase())){
+                            tabResultats2.value.push(element);
+                        }
                     }
+                   
                 })
                 tabResultats.value = tabResultats2.value;
                 tabResultats2.value = [];  
-                tabLettreTMP.value.push({"lettre" : leTab[i].toUpperCase(), "couleur" : "0", "position": i});
+                tabLettreTMP.value.push({"lettre" : leTab[i].toUpperCase(), "couleur" : "O", "position": i});
                 tabLettrePositionTMP.value.push(leTab[i].toUpperCase()+i);
                 }
             }
-
         
             for(let i = 2;i<= nbInput.value;i++) {
-                if(tabColor.value[i] === 0){
+                if(tabColorGlobal.value[index][i] === 0){
                     tabResultats.value.forEach(element => {
-
+                    
                     let del = true;
-
                     tabLettreTMP.value.forEach(lettre => {
+                        
                         let verif = true;
                         if(lettre.lettre === leTab[i].toUpperCase()) {
                             del = false;
                             if(lettre.couleur === "O") {
-                                if(element[i] === leTab[i].toUpperCase()){
+                                if(element[i-1] === leTab[i].toUpperCase()){
                                     verif = false;
                                 }
                             }else if(lettre.couleur === "R") {
@@ -190,11 +220,14 @@ export default {
                                 }
                             }
                             if(verif) {
-                                tabResultats2.value.push(element);
+                                if(tabResultats2.value.indexOf(element) === -1) {
+                                    tabResultats2.value.push(element);
+                                }
                             }
                         }
                     })
                     if(del) {
+                        
                         if(!(element.includes(leTab[i].toUpperCase()))){
                             tabResultats2.value.push(element);
                         }
