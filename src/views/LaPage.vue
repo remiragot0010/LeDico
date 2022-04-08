@@ -179,7 +179,10 @@ export default {
                                 }
                             }
                             if(verif) {
-                                tabResultats2.value.push(element);
+                                if(tabResultats2.value.indexOf(element) === -1) {
+                                    tabResultats2.value.push(element);
+                                }
+                                
                             }
                         }
                     })
